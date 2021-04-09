@@ -1,7 +1,7 @@
 CREATE TABLE ITEM ( 
-  ID                VARCHAR(3) NOT NULL,
-  NAME              VARCHAR(40),
-  PRICE				DECIMAL(8,2),
+  ID                VARCHAR(3) NOT NULL PRIMARY KEY,
+  NAME              VARCHAR(40) NOT NULL,
+  PRICE				DECIMAL(8,2) NOT NULL,
   DESCRIPTION       VARCHAR(255),
   IMAGE				VARCHAR(40)
 );

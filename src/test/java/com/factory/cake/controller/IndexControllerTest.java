@@ -1,5 +1,6 @@
 package com.factory.cake.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.hamcrest.Matchers;
@@ -40,4 +41,13 @@ class IndexControllerTest {
 		assertTrue((page.asNormalizedText().contains("a delicious apple pie with fresh apples")));
 		assertTrue((page.asNormalizedText().contains("Ice cream and melting chocolate : the perfect match")));
 	}
+	
+	@Test
+	@DisplayName("index page return a list of items from the database")
+	void returnsListOfItemsFromDb() throws Exception {
+		final String expectedName = "Profiteroles";
+		HtmlPage page = webClient.getPage("/");
+		assertThat(page.querySelectorAll(".item-name")).anyMatch(domElement -> expectedName.equals(domElement.asNormalizedText()));
+	}
+
 }

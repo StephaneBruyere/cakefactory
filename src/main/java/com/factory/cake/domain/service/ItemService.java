@@ -2,14 +2,15 @@ package com.factory.cake.domain.service;
 
 import java.util.List;
 
-import com.factory.cake.domain.model.Item;
+import com.factory.cake.domain.dto.ItemDTO;
 
 public interface ItemService {
 	
-	public List<Item> createSixItems();
+	public List<ItemDTO> createSixItems();
 	
-	public List<Item> findAllItems();
+	public List<ItemDTO> findAllItems();
 
-	public Item findItembyId(long id);
+	public ItemDTO findItembyId(String id);
+
 
 }
