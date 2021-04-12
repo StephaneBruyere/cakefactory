@@ -18,7 +18,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class IndexControllerTest {
+class CatalogControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;

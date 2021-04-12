@@ -23,7 +23,7 @@ public class ItemServiceImpl implements ItemService {
 		ItemDTO eclair = new ItemDTO("ecc", "Eclair", 6.5f, "a French chocolate treat", "eclair");
 		ItemDTO macaron = new ItemDTO("mac", "Macarons", 9.5f, "so delicate !", "macarons");
 		ItemDTO strudel = new ItemDTO("str", "Strudel", 6.0f, " a German apple pie", "strudel");
-		ItemDTO croissant = new ItemDTO("croi", "Croissant", 1.5f, "the famous French pastry", "croissant");
+		ItemDTO croissant = new ItemDTO("cro", "Croissant", 1.5f, "the famous French pastry", "croissant");
 		ItemDTO profiteroles = new ItemDTO("pro", "Profiteroles", 9.0f,"Ice cream and melting chocolate : the perfect match", "profiteroles");
 		return List.of(pie, eclair, macaron, strudel, croissant, profiteroles);
 	}
@@ -43,6 +43,11 @@ public class ItemServiceImpl implements ItemService {
 			return new ItemDTO(entity.getId(), entity.getName(), entity.getPrice(), entity.getDescription(), entity.getImage());
 		else
 			return null;
+	}
+	
+	@Override
+	public boolean existsItemById(String id) {
+		return itemRepository.existsById(id);
 	}
 
 }

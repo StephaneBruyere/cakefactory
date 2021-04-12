@@ -1,4 +1,4 @@
-package com.factory.cake.repo;
+package com.factory.cake.domain.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,7 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.factory.cake.domain.dto.ItemDTO;
 import com.factory.cake.domain.repo.ItemRepository;
-import com.factory.cake.domain.service.ItemService;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

@@ -11,6 +11,8 @@ public interface ItemService {
 	public List<ItemDTO> findAllItems();
 
 	public ItemDTO findItembyId(String id);
+	
+	public boolean existsItemById(String id);
 
 
 }
