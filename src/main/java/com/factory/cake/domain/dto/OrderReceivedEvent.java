@@ -2,28 +2,28 @@ package com.factory.cake.domain.dto;
 
 import java.util.Collection;
 
-import com.factory.cake.domain.model.Address;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class OrderDTO {
+@AllArgsConstructor
+public class OrderReceivedEvent {
 
 	private Collection<BasketLineDTO> basket;
-	private Address address = new Address();
+	private AddressDTO deliveryAddress = new AddressDTO();
 	
 	
 	public void setLine1 (String line1) {
-		this.address.setLine1(line1);
+		this.deliveryAddress.setLine1(line1);
 	}
 	
 	public void setLine2 (String line2) {
-		this.address.setLine2(line2);
+		this.deliveryAddress.setLine2(line2);
 	}
 	
 	public void setPostcode (String postcode) {
-		this.address.setPostcode(postcode);
+		this.deliveryAddress.setPostcode(postcode);
 	}
 }

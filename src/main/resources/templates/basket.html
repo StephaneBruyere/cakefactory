@@ -1,73 +1,69 @@
  {{> header}}
-<br>
+
   <!-- Page Content -->
   <div class="container">
-
+  
     <div class="row">
-
-      <div class="col-lg-9">
-
-        <div class="container-fluid">
-        <h1>Your basket</h1>
-        <table class="table">
-        	<tr>
-    			<th>Title</th>
-    			<th>Qty</th>
-    			<th>Total</th>
-    			<th></th>
+      <div class="col-lg-12">
+        <h1 class="mt-4">Your basket</h1>
+        <table class="table table-striped">
+        	<thead>
+        		<tr>
+    				<th>Title</th>
+    				<th>Qty</th>
+    				<th>Total</th>
+    				<th></th>
   				</tr>
-		{{#basket}}
-          <div class="col-lg-4 col-md-6 mb-4">
+  			</thead>	
+  			<tbody>
+			{{#basket}}
             <tr>
             	<td>{{name}}</td>
-            	<td>{{quantity}}</td>
-            	<td>{{linePrice}}</td>
-            	<form method="post" action="/remove-line">
-            	<input type="hidden" name="id" value={{id}}>
-            	<td ><button type="submit" class="btn btn-danger" >Remove</button></td>
-            	</form>
+            	<td class="qty">{{quantity}}</td>
+            	<td>{{lineTotalPrice}}</td>
+            	<td class="col-md-1">
+            		<form method="post" action="/basket/delete">
+            			 {{#_csrf}}
+    						<input type="hidden" name="{{parameterName}}" value="{{token}}"/>
+		 				{{/_csrf}}
+            			<input type="hidden" name="id" value={{id}}>
+            			<button type="submit" class="btn btn-danger btn-sm remove-item" >Remove</button>
+            		</form>
+            	</td>
             </tr>
-          </div>
          {{/basket}}
+         </tbody>
          </table>
-        </div>
-        <br>
+       </div> 
+      </div> 
         
- 
-        <div class="container-fluid">
+		<div class="row">
+        <div class="col-lg-12 mt-4 mb-4">
         <h1>Delivery address</h1>
         <form method="post" action="/order">
+         {{#_csrf}}
+    		<input type="hidden" name="{{parameterName}}" value="{{token}}"/>
+		 {{/_csrf}}
         <div class="form-group">
         	<label for="line1" class="col-sm-2 control-label" >Address line 1</label>
-        	<div class="col-sm-5">
-        		<input type="text" name="line1" placeholder="Address line 1">
-        	</div>
+        	<input required type="text" class="form-control" name="line1" id="line1" placeholder="Address Line 1"
+        	{{#user}}value="{{line1}}"{{/user}}>
         </div>
         <div class="form-group">
         	<label for="line2" class="col-sm-2 control-label" >Address line 2</label>
-        	<div class="col-sm-5">
-         		<input type="text" name="line2" placeholder="Address line 2">
-         	</div>
+         	<input type="text" class="form-control" name="line2" id="line2" placeholder="Address Line 2"
+         	{{#user}}value="{{line2}}"{{/user}}>
          </div>
          <div class="form-group">
          	<label for="postcode" class="col-sm-2 control-label" >Postcode</label>
-         	<div class="col-sm-5">
-          		<input type="text" name="postcode" placeholder="Postcode">
-          	</div>	
+          	<input required type="text" class="form-control" name="postcode" id="postcode" placeholder="Postcode"
+          	{{#user}}value="{{postcode}}"{{/user}}>
           </div>
-          <div class="form-group">
-          	<div class="col-sm-offset-2 col-sm-5">
-          		<button type="submit" class="btn btn-primary" >Complete order</button>
-          	</div>	
-          </div>
+          	<button type="submit" class="btn btn-primary float-right" id="complete-order">Complete order</button>
         </form>
         </div>
 
       </div>
-      <!-- /.col-lg-9 -->
-
-    </div>
-    <!-- /.row -->
 
   </div>
   <!-- /.container -->

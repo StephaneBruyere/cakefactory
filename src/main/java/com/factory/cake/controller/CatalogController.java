@@ -1,20 +1,17 @@
 package com.factory.cake.controller;
 
-import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.factory.cake.domain.dto.BasketLineDTO;
-import com.factory.cake.domain.model.Address;
+import com.factory.cake.authentication.domain.dto.UserDTO;
+import com.factory.cake.authentication.domain.service.UserService;
 import com.factory.cake.domain.service.BasketService;
 import com.factory.cake.domain.service.ItemService;
-import com.factory.cake.domain.service.OrderService;
 
 @Controller
 public class CatalogController {
@@ -23,65 +20,40 @@ public class CatalogController {
 	ItemService itemService;
 	
 	@Autowired
-	BasketService basketService;
+	UserService userService;
 	
 	@Autowired
-	OrderService orderService;
+	BasketService basketService;
 	
 	@GetMapping("/")
-	public String LandingPage(Model model) {
+	public ModelAndView LandingPage(Authentication authentication) {
 		int basketCount;
-		model.addAttribute("itemDTOs", itemService.findAllItems());
-		model.addAttribute("brand", "Cake Factory");
-		if((basketCount = basketService.basketCount())>0)
-			model.addAttribute("basketCount", basketCount);
-		return "index";
+		UserDTO userDTO = null;
+		if(authentication != null)
+			userDTO = userService.findUser(authentication.getName());
+		if((basketCount = basketService.basketCount())>0 && userDTO!=null)
+			return new ModelAndView("index", Map.of(
+//					"brand", "Cake Factory", 
+					"itemDTOs", itemService.findAllItems(), 
+					"basketCount", basketCount,
+					"user", userDTO)
+					);
+		else if((basketCount = basketService.basketCount())<1 && userDTO!=null)
+			return new ModelAndView("index", Map.of(
+//					"brand", "Cake Factory", 
+					"itemDTOs", itemService.findAllItems(), 
+					"user", userDTO)
+					);
+		else if((basketCount = basketService.basketCount())>0 && userDTO==null)
+			return new ModelAndView("index", Map.of(
+//					"brand", "Cake Factory", 
+					"itemDTOs", itemService.findAllItems(), 
+					"basketCount", basketCount)
+					);
+		else
+			return new ModelAndView("index", Map.of(
+//					"brand", "Cake Factory", 
+					"itemDTOs", itemService.findAllItems())
+					);
 	}
-	
-	@PostMapping("/basket")
-	public String addToBasket(Model model, @RequestParam String id) {
-		int basketCount;
-		basketService.addToBasket(id);		
-		model.addAttribute("itemDTOs", itemService.findAllItems());
-		model.addAttribute("brand", "Cake Factory");
-		if((basketCount = basketService.basketCount())>0)
-			model.addAttribute("basketCount", basketCount);
-		return "index";
-	}
-	
-	@GetMapping("/show-basket")
-	public String showBasket(Model model) {
-		int basketCount;
-		Collection<BasketLineDTO> basket = basketService.getBasketItems();
-		model.addAttribute("brand", "Cake Factory");
-		if((basketCount = basketService.basketCount())>0) {
-			model.addAttribute("basketCount", basketCount);
-			model.addAttribute("basket", basket);
-		}		
-		return "basket";
-	}
-	
-	@PostMapping("/remove-line")
-	public String removeOneFromBasket(Model model, @RequestParam String id) {
-		basketService.removeOne(id);
-		int basketCount;
-		Collection<BasketLineDTO> basket = basketService.getBasketItems();
-		model.addAttribute("brand", "Cake Factory");
-		if((basketCount = basketService.basketCount())>0) {
-			model.addAttribute("basketCount", basketCount);
-			model.addAttribute("basket", basket);
-			return "basket";
-		}		
-		model.addAttribute("itemDTOs", itemService.findAllItems());
-		return "index";
-	}
-	
-	@PostMapping("/order")
-	public String order(Model model, @ModelAttribute Address address) {
-		System.err.println(address);
-		orderService.createOrder(basketService.getBasketItems(), address);
-		model.addAttribute("brand", "Cake Factory");
-		return "checkout";
-	}
-	
 }

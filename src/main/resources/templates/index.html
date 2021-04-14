@@ -55,15 +55,19 @@
                 <h4 class="card-title">
                   <a href="#" class="item-name">{{name}}</a>
                 </h4>
-                <h5>{{price}} &euro;</h5>
+                <h5 class="item-price">{{price}} &euro;</h5>
                 <p class="card-text">{{description}}</p>
               </div>
-              <form method="post" action="/basket">
-               <input type="hidden" name="id" value={{id}} />
               <div class="card-footer">
-                <button type="submit" class="btn btn-primary">add</button>
+              <form method="post" action="/basket">
+               {{#_csrf}}
+    				<input type="hidden" name="{{parameterName}}" value="{{token}}"/>
+				{{/_csrf}}
+               <input type="hidden" name="id" value={{id}} />
+                <button type="submit" class="btn btn-primary float-right add-to-basket">add</button>
+                </form>
               </div>
-              </form>
+              
             </div>
           </div>
          {{/itemDTOs}}

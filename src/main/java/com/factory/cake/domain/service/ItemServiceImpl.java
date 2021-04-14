@@ -27,6 +27,15 @@ public class ItemServiceImpl implements ItemService {
 		ItemDTO profiteroles = new ItemDTO("pro", "Profiteroles", 9.0f,"Ice cream and melting chocolate : the perfect match", "profiteroles");
 		return List.of(pie, eclair, macaron, strudel, croissant, profiteroles);
 	}
+	
+	@Override
+	public ItemDTO saveItem(ItemDTO itemDTO) {
+		Item item = toEntity(itemDTO);
+		System.err.println(item);
+		item = itemRepository.save(item);
+		
+		return toDTO(item);
+	}
 
 	@Override
 	public List<ItemDTO> findAllItems() {
@@ -48,6 +57,19 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public boolean existsItemById(String id) {
 		return itemRepository.existsById(id);
+	}
+	
+	@Override
+	public void deletebyId(String id) {
+		itemRepository.deleteById(id);
+	}
+	
+	private Item toEntity(ItemDTO itemDTO) {
+		return new Item(itemDTO.getId(),itemDTO.getName(),itemDTO.getPrice(),itemDTO.getDescription(),itemDTO.getImage());
+	}
+	
+	private ItemDTO toDTO(Item itemD) {
+		return new ItemDTO(itemD.getId(),itemD.getName(),itemD.getPrice(),itemD.getDescription(),itemD.getImage());
 	}
 
 }

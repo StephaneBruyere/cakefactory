@@ -1,6 +1,5 @@
-package com.factory.cake.domain.model;
+package com.factory.cake.domain.dto;
 
-import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
@@ -10,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Embeddable
-public class Address {
+public class AddressDTO {
 	
 	@NotBlank(message = "invalid Street")
 	private String line1;

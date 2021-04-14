@@ -2,16 +2,20 @@ package com.factory.cake.domain.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.SessionScope;
+//import org.springframework.web.context.annotation.SessionScope;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.factory.cake.domain.dto.BasketLineDTO;
 
-@SessionScope
+//@SessionScope
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Service
 public class BasketServiceImpl implements BasketService {
 	
@@ -21,7 +25,7 @@ public class BasketServiceImpl implements BasketService {
 	private ItemService itemService;
 	
 	public BasketServiceImpl () {
-		this.basket = new HashMap<>();
+		this.basket = new ConcurrentHashMap<>();
 	}
 
 	@Override

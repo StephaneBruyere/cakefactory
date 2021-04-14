@@ -1,0 +1,23 @@
+ {{> header}}
+<div class="container" >
+<br>
+<h1>Error</h1>
+<br>
+{{#exception}}
+<div class="alert alert-warning"">{{exception}}</div>
+{{/exception}}
+
+{{#exceptions}}
+<div class="alert alert-warning"">
+<table class="table table-striped ">
+                        <tbody>
+                        <tr class="row">
+                                <td>{{errors}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+</div>
+{{/exceptions}}
+<br>
+</div>            
+ {{> footer}}

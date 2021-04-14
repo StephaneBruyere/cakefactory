@@ -12,7 +12,7 @@ public class BasketLineDTO {
     private String id;
     private String name;
     private int quantity;
-	private float linePrice;
+	private float lineTotalPrice;
 
 
 }

@@ -17,12 +17,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class Item  implements Serializable {
+	
 	@Id
 	private String id;
+	
 	@NotBlank
 	private String name;
+	
 	@NotNull
 	private float price;
+	
 	private String description;
 	private String image;
 }

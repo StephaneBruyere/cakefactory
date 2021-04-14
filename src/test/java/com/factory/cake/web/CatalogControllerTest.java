@@ -1,4 +1,4 @@
-package com.factory.cake.controller;
+package com.factory.cake.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
