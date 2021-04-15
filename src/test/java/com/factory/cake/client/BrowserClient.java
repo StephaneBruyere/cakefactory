@@ -2,6 +2,7 @@ package com.factory.cake.client;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomNode;
+import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -78,8 +79,8 @@ public class BrowserClient {
     }
 
     public void fillInAddress(String line1, String line2, String postcode) {
-        setValue("#addressLine1", line1);
-        setValue("#addressLine2", line2);
+        setValue("#line1", line1);
+        setValue("#line2", line2);
         setValue("#postcode", postcode);
     }
 
@@ -101,6 +102,60 @@ public class BrowserClient {
         }
 
         return items.get(0);
+    }
+    
+    @SneakyThrows
+    public void goToSignupPage() {
+        this.currentPage = this.webClient.getPage("http://localhost/signup");
+    }
+
+    @SneakyThrows
+    public void goToAccountPage() {
+        this.currentPage = this.webClient.getPage("http://localhost/update-account");
+    }
+
+    public void fillInDetails(String email, String password, String addressLine1, String addressLine2, String postcode) {
+        setValue("#username", email);
+        setValue("#password", password);
+        fillInAddress(addressLine1, addressLine2, postcode);
+    }
+
+    @SneakyThrows
+    public void completeSignup() {
+        HtmlButton signupButton = this.currentPage.querySelector("#signup");
+        this.currentPage = signupButton.click();
+    }
+
+    public String getCurrentUserEmail() {
+        return this.currentPage.querySelector("#current-user").asNormalizedText();
+    }
+
+    @SneakyThrows
+    public void goToLoginPage() {
+        this.currentPage = this.webClient.getPage("http://localhost/login");
+    }
+
+    public void fillInLogin(String email, String password) {
+        setValue("#username", email);
+        setValue("#password", password);
+    }
+
+    @SneakyThrows
+    public void clickPrimaryButton() {
+        HtmlButton loginButton = this.currentPage.querySelector(".btn-primary");
+        this.currentPage = loginButton.click();
+    }
+
+    public String getAddressLine1() {
+        return this.currentPage.querySelector("#line1").asNormalizedText();
+    }
+
+    public String getAddressLine2() {
+        return this.currentPage.querySelector("#line2").asNormalizedText();
+    }
+
+    public String getPostcode() {
+        return this.currentPage.querySelector("#postcode").asNormalizedText();
     }
 
     private void setValue(String selector, String value) {

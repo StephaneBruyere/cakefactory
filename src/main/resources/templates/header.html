@@ -36,7 +36,7 @@
           {{/basketCount}}
         <li class="nav-item">
 			{{#user}}
-			<a class="nav-link" href="/update-account">{{username}}</a>
+			<a class="nav-link" href="/update-account" id="current-user">{{username}}</a>
 			{{/user}}
 			{{^user}}
 			<a class="nav-link" href="/login">Login</a>
@@ -46,9 +46,7 @@
           <li class="nav-item">
 			<a class="nav-link" href="javascript:document.logoutForm.submit()">logout</a>
 			<form name="logoutForm" action="/logout" method="post" hidden="true">
-				{{#_csrf}}
-    				<input type="hidden" name="{{parameterName}}" value="{{token}}"/>
-				{{/_csrf}}
+    				<input type="hidden" name="{{_csrf.parameterName}}" value="{{_csrf.token}}"/>
                   <input hidden="true" type="submit" value="logout"/>
             </form>  
           </li>

@@ -60,9 +60,7 @@
               </div>
               <div class="card-footer">
               <form method="post" action="/basket">
-               {{#_csrf}}
-    				<input type="hidden" name="{{parameterName}}" value="{{token}}"/>
-				{{/_csrf}}
+    				<input type="hidden" name="{{_csrf.parameterName}}" value="{{_csrf.token}}"/>
                <input type="hidden" name="id" value={{id}} />
                 <button type="submit" class="btn btn-primary float-right add-to-basket">add</button>
                 </form>

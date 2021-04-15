@@ -6,10 +6,10 @@
 		<div class="row">
         <div class="col-lg-12 mt-4 mb-4">
         <h1>Login</h1>
-        <form method="post" action="/login">
-        {{#_csrf}}
-    		<input type="hidden" name="{{parameterName}}" value="{{token}}"/>
-		{{/_csrf}}
+        {{#error}}
+        <h3 class="alert alert-danger" role="alert">{{error}}</h3>
+        {{/error}}
+        <form method="post" >
         <div class="form-group">
         	<label for="username" class="col-sm-2 control-label" >Email</label>
         	<input required type="email" class="form-control" name="username" id="username" placeholder="Email">
@@ -20,6 +20,7 @@
         </div>
 			<p>Don't have an account ? <a href="/signup">Signup now !</a></p>
           	<button type="submit" class="btn btn-primary float-right" id="signup">login</button>
+          	<input type="hidden" name="{{_csrf.parameterName}}" value="{{_csrf.token}}"/>
         </form>
         </div>
 

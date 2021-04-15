@@ -8,7 +8,7 @@ import com.factory.cake.authentication.domain.dto.UserDTO;
 
 public interface UserService {
 
-	public UserDTO createUser(@Valid final UserDTO userDTO);
+	public UserDTO createUser(@Valid final UserDTO userDTO) throws Exception;
 
 	public UserDTO findUser(final String username);
 

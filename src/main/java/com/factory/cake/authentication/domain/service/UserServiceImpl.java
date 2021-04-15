@@ -26,7 +26,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public UserDTO createUser(@Valid UserDTO userDTO)  {
+	public UserDTO createUser(@Valid UserDTO userDTO)  throws Exception{
+		if( findUser(userDTO.getUsername()) != null ) {
+			throw new Exception("User already exists in database");
+		}
 		User user = toEntity(userDTO);
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		User returnedUser = userRepository.save(user);
@@ -36,8 +39,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(readOnly = true)
 	public UserDTO findUser(final String username) {
-		User user = userRepository.findById(username).get();
-		return toDTO(user);
+		User user;
+		if((user = userRepository.findById(username).orElse(null))== null) {
+			return null;
+		} else
+			return toDTO(user);
 	}
 
 	@Override
@@ -50,8 +56,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void updateUser(@Valid UserDTO userDTO)  {
-		User user = toEntity(userDTO);
-		user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+		User user = userRepository.findById(userDTO.getUsername()).get();
+		user.setAddress(new Address(userDTO.getLine1(),userDTO.getLine2(),userDTO.getPostcode()));
 		userRepository.save(user);
 	}
 

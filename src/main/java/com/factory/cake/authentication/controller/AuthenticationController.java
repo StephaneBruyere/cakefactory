@@ -1,77 +1,62 @@
 package com.factory.cake.authentication.controller;
 
-import java.util.Map;
+import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.factory.cake.authentication.domain.dto.UserDTO;
 import com.factory.cake.authentication.domain.service.UserService;
 import com.factory.cake.domain.dto.AddressDTO;
-import com.factory.cake.domain.service.BasketService;
 
 @Controller
 public class AuthenticationController {
+
+	private UserService userService;
 	
-	@Autowired
-	UserService userService;
-	
-	@Autowired
-	BasketService basketService;
+	// Pour les tests
+	public AuthenticationController(UserService userService) {
+		this.userService=userService;
+	}
 	
 	@GetMapping("/login")
-	public ModelAndView login() {
-		return new ModelAndView("login");
-//		return new ModelAndView("login", Map.of(
-//				"brand", "Cake Factory"
-////				"basketCount", basketService.basketCount(), 
-////				"basket", basketService.getBasketItems()
-//				));
+	public String login() {
+		return "login";
 	}
 	
 	@GetMapping("/signup")
-	public ModelAndView signup() {
-		return new ModelAndView("signup", Map.of(
-//				"brand", "Cake Factory",
-				"basketCount", basketService.basketCount()) 
-//				"basket", basketService.getBasketItems())
-				);
+	public String signup() {
+		return "signup";
 	}
 	
 	@PostMapping("/signup")
-	public String createAccount(@Valid UserDTO userDTO) {
+	public String createAccount(Model model, @Valid UserDTO userDTO) {
+		try {
 		userService.createUser(userDTO);
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDTO.getUsername(), "", List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        SecurityContextHolder.getContext().setAuthentication(token);
+		} catch (Exception e) {
+			model.addAttribute("error", e.getMessage());
+			return "login";
+		}
 		return "redirect:/";
 	}
 	
 	@GetMapping("/update-account")
-	public ModelAndView updateAcount(Authentication authentication) {
-		UserDTO userDTO = null;
-		if(authentication != null)
-			userDTO = userService.findUser(authentication.getName());
-		if(userDTO!=null)
-			return new ModelAndView("update-account", Map.of(
-//				"brand", "Cake Factory",
-				"basketCount", basketService.basketCount(), 
-				"basket", basketService.getBasketItems(),
-				"user", userDTO)
-				);
-		return new ModelAndView("index", Map.of(
-//				"brand", "Cake Factory",
-				"basketCount", basketService.basketCount(), 
-				"basket", basketService.getBasketItems())
-				);
+	public String updateAccount() {
+			return "update-account";
 	}
 	
 	@PostMapping("/update-account")
-	public String updatingAcount(Authentication authentication,@Valid AddressDTO addressDTO) {
-//		System.err.println(addressDTO);
+	public String updatingAccount(Authentication authentication,@Valid AddressDTO addressDTO) {
 		if(authentication != null) {
 			UserDTO userDTO = userService.findUser(authentication.getName());
 			if(userDTO!=null) {
@@ -80,8 +65,9 @@ public class AuthenticationController {
 				userDTO.setPostcode(addressDTO.getPostcode());
 				userService.updateUser(userDTO);
 			}
+			return "redirect:/update-account";
 		}
-		return "redirect:/update-account";
+		return "redirect:/login";
 	}
 
 }

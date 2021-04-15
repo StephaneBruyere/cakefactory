@@ -32,7 +32,7 @@ class OrderControllerTest {
 
     @Test
     void clearsBasket() {
-        this.controller.order(null,null);
+        this.controller.order(null);
         verify(this.basket).clear();
     }
 
@@ -41,7 +41,7 @@ class OrderControllerTest {
     	BasketLineDTO basketItem1 = new BasketLineDTO("sku1", "Test", 3, 4.5f);
     	BasketLineDTO basketItem2 = new BasketLineDTO("sku2", "Test", 3, 4.5f);
         when(this.basket.getBasketItems()).thenReturn(Arrays.asList(basketItem1, basketItem2));
-        this.controller.order(null,new AddressDTO("line1", "line2", "P1 CD"));
+        this.controller.order(new AddressDTO("line1", "line2", "P1 CD"));
 
         verify(this.eventPublisher).publishEvent(new OrderReceivedEvent(Arrays.asList(basketItem1, basketItem2), new AddressDTO("line1", "line2", "P1 CD") ));
     }

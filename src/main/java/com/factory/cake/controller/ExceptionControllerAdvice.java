@@ -33,7 +33,6 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionController
         });
         LOGGER.error("exiting "+mname);
         return new ModelAndView("error", Map.of(
-//				"brand", "Cake Factory",
 				"exceptions", errors
 				));
     }
@@ -44,7 +43,6 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionController
         LOGGER.error("entering "+mname+" - "+ex.getMessage());
         ex.printStackTrace();
         return new ModelAndView("error", Map.of(
-//				"brand", "Cake Factory",
 				"exception", "Request: " + req.getRequestURL() + " raised " + ex.getClass().getName()+" ***** Go home !"
 				));
     }
