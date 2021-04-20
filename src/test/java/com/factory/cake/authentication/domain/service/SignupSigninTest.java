@@ -7,6 +7,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.UUID;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import com.factory.cake.client.BrowserClient;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class SignupSigninTest {
 	
 	private UserService userService;

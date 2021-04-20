@@ -38,8 +38,6 @@ public class UserSignupAcceptanceTest {
         client.goToSignupPage();
         client.fillInDetails(email, password, "address line 1", "address line 2", "P1 ST");
         client.completeSignup();
-//        System.err.println(email);
-//        System.err.println(client.getCurrentUserEmail());
         assertThat(client.getCurrentUserEmail()).isEqualTo(email);
     }
     

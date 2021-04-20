@@ -12,49 +12,39 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.factory.cake.authentication.domain.dto.AddressDTO;
-import com.factory.cake.authentication.domain.model.CustomOAuth2User;
 import com.factory.cake.authentication.domain.service.AddressService;
 import com.factory.cake.domain.service.BasketService;
 
 @Controller
 @RequestMapping("/basket")
 public class BasketController {
-	
+
 	@Autowired
 	BasketService basketService;
-	
+
 	@Autowired
 	AddressService addressService;
-	
+
 	@PostMapping
 	public String addToBasket(@RequestParam String id) {
-		basketService.addToBasket(id);		
+		basketService.addToBasket(id);
 		return "redirect:/";
 	}
-	
+
 	@GetMapping
 	public ModelAndView showBasket(Authentication authentication) {
-		if(authentication != null) {
-			AddressDTO addressDTO = null;
-			try {
-				CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-				addressDTO = this.addressService.findOrEmpty(oAuth2User.getEmail());
-			} catch (ClassCastException e) {
-				addressDTO = this.addressService.findOrEmpty(authentication.getName());
-				} 
-			return new ModelAndView("basket", Map.of(
-					"basket", basketService.getBasketItems(),
-					"address", addressDTO)
-					);
+		if (authentication != null) {
+			AddressDTO addressDTO = this.addressService.findOrEmpty(authentication.getName());
+			return new ModelAndView("basket", Map.of("basket", basketService.getBasketItems(), "address", addressDTO));
 		} else
 			return new ModelAndView("basket", Map.of("basket", basketService.getBasketItems()));
 	}
-	
+
 	@PostMapping("/delete")
 	public String removeOneFromBasket(@RequestParam String id) {
 		basketService.removeOne(id);
-		if(basketService.basketCount()>0)
-			return "redirect:/basket";	
+		if (basketService.basketCount() > 0)
+			return "redirect:/basket";
 		else
 			return "redirect:/";
 	}
