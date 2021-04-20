@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.UUID;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import com.factory.cake.client.BrowserClient;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class UserSignupAcceptanceTest {
 
     @Autowired
@@ -35,8 +38,8 @@ public class UserSignupAcceptanceTest {
         client.goToSignupPage();
         client.fillInDetails(email, password, "address line 1", "address line 2", "P1 ST");
         client.completeSignup();
-        System.err.println(email);
-        System.err.println(client.getCurrentUserEmail());
+//        System.err.println(email);
+//        System.err.println(client.getCurrentUserEmail());
         assertThat(client.getCurrentUserEmail()).isEqualTo(email);
     }
     

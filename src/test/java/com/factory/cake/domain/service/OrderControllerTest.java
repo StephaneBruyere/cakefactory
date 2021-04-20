@@ -11,8 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationEventPublisher;
 
+import com.factory.cake.authentication.domain.dto.AddressDTO;
 import com.factory.cake.controller.OrderController;
-import com.factory.cake.domain.dto.AddressDTO;
 import com.factory.cake.domain.dto.BasketLineDTO;
 import com.factory.cake.domain.dto.OrderReceivedEvent;
 

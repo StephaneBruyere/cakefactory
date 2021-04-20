@@ -111,7 +111,7 @@ public class BrowserClient {
 
     @SneakyThrows
     public void goToAccountPage() {
-        this.currentPage = this.webClient.getPage("http://localhost/update-account");
+        this.currentPage = this.webClient.getPage("http://localhost/account");
     }
 
     public void fillInDetails(String email, String password, String addressLine1, String addressLine2, String postcode) {

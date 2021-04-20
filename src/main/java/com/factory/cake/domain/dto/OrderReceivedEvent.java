@@ -2,6 +2,8 @@ package com.factory.cake.domain.dto;
 
 import java.util.Collection;
 
+import com.factory.cake.authentication.domain.dto.AddressDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.factory.cake.authentication.domain.dto.UserDTO;
 import com.factory.cake.authentication.domain.model.User;
 import com.factory.cake.authentication.domain.repo.UserRepository;
-import com.factory.cake.domain.model.Address;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -53,13 +52,6 @@ public class UserServiceImpl implements UserService {
 		userRepository.delete(user);
 	}
 
-	@Override
-	@Transactional
-	public void updateUser(@Valid UserDTO userDTO)  {
-		User user = userRepository.findById(userDTO.getUsername()).get();
-		user.setAddress(new Address(userDTO.getLine1(),userDTO.getLine2(),userDTO.getPostcode()));
-		userRepository.save(user);
-	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -71,12 +63,18 @@ public class UserServiceImpl implements UserService {
 								.collect(Collectors.toList());
 		return usersDTO;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public boolean exists(final String username) {
+		return userRepository.existsById(username);
+	}
 	
 	private UserDTO toDTO(User user) {
-		return new UserDTO(user.getUsername(),user.getPassword(),user.getAddress().getLine1(),user.getAddress().getLine2(),user.getAddress().getPostcode());
+		return new UserDTO(user.getUsername(),user.getPassword());
 	}
 	private User toEntity(UserDTO userDTO) {
-		return new User(userDTO.getUsername(),userDTO.getPassword(), new Address(userDTO.getLine1(),userDTO.getLine2(),userDTO.getPostcode()));
+		return new User(userDTO.getUsername(),userDTO.getPassword());
 	}
 
 }

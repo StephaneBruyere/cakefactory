@@ -30,6 +30,7 @@
          	<label for="postcode" class="col-sm-2 control-label" >Postcode</label>
           	<input required type="text" class="form-control" name="postcode" id="postcode" placeholder="Postcode">
           </div>
+          <input type="hidden" name="authProvider" value="LOCAL"/>
           	<button type="submit" class="btn btn-primary float-right" id="signup">Signup</button>
           	<input type="hidden" name="{{_csrf.parameterName}}" value="{{_csrf.token}}"/>
         </form>

@@ -1,0 +1,57 @@
+spring:
+  mustache:
+    suffix: .html
+    expose-request-attributes: true
+
+# ===============================
+# DATABASE
+# ===============================
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cakefactory
+    username: postgres
+    password: cnam
+# Keep the connection alive if idle for a long time (needed in production)
+    tomcat:
+      test-while-idle: true
+      validation-query: SELECT 1
+
+# ===============================
+# JPA / HIBERNATE
+# ===============================
+  jpa:
+    show-sql: true
+    hibernate.ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+# ----------------------------------------
+# FLYWAY (FlywayProperties)
+  flyway:
+    table: flyway_schema_history
+    baseline-on-migrate: true
+    enabled: true
+
+# ----------------------------------------
+# OAUTH2
+# ----------------------------------------
+  security:
+    oauth2:
+      client:
+        registration:
+#          github:
+#            client-id: 295215c4e4d5fcc7c5ee
+#            client-secret: de7a1dda7e7fa6a731c836677463383386ad4b0a
+#            scope:
+#              - user:email
+#              - read:user
+          google:
+            client-id: 325730648419-d15tqvef67l4kcsfopghhl9qq1l4dp93.apps.googleusercontent.com
+            client-secret: NkLJceHg5ABxyF-BVgtZwkjY
+            scope:
+              - email
+              - profile
+#        provider:
+#          google:
+#            user-name-attribute: email 

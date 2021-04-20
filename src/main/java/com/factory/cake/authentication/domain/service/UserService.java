@@ -14,9 +14,8 @@ public interface UserService {
 
 	public void deleteUser(final String username);
 
-	public void updateUser(@Valid final UserDTO userDTO);
-
 	public List<UserDTO> findUsers();
 
-
+	public boolean exists(String username);
+	
 }

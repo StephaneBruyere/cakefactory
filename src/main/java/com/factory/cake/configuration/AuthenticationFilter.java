@@ -13,23 +13,21 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import com.factory.cake.authentication.domain.service.UserService;
+import com.factory.cake.authentication.domain.model.CustomOAuth2User;
 
 @Component
 public class AuthenticationFilter implements Filter {
-	
-private final UserService userService;
-	
-	public AuthenticationFilter (UserService userService) {
-		this.userService = userService;
-	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)	throws IOException, ServletException {
 		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
-//	        	System.err.println(authentication.getName());
-	            request.setAttribute("user", userService.findUser(authentication.getName()));
+	        	try {
+	        		CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+	        		request.setAttribute("email", oAuth2User.getEmail());
+	        	} catch (ClassCastException e) {
+	        		request.setAttribute("email", authentication.getName());
+	        	}
 	        }
 		filterChain.doFilter(request, response);
 	}

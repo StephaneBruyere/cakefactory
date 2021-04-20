@@ -1,4 +1,4 @@
-package com.factory.cake.domain.dto;
+package com.factory.cake.authentication.domain.dto;
 
 import javax.validation.constraints.NotBlank;
 

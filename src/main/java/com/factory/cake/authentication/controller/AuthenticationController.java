@@ -1,8 +1,7 @@
 package com.factory.cake.authentication.controller;
 
 import java.util.List;
-
-import javax.validation.Valid;
+import java.util.Map;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,19 +11,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.factory.cake.authentication.domain.dto.AddressDTO;
 import com.factory.cake.authentication.domain.dto.UserDTO;
+import com.factory.cake.authentication.domain.model.CustomOAuth2User;
+import com.factory.cake.authentication.domain.service.AddressService;
 import com.factory.cake.authentication.domain.service.UserService;
-import com.factory.cake.domain.dto.AddressDTO;
 
 @Controller
 public class AuthenticationController {
 
 	private UserService userService;
+	private AddressService addressService;
 	
 	// Pour les tests
-	public AuthenticationController(UserService userService) {
-		this.userService=userService;
+	public AuthenticationController(UserService userService, AddressService addressService) {
+		this.userService = userService;
+		this.addressService = addressService;
 	}
 	
 	@GetMapping("/login")
@@ -38,9 +43,13 @@ public class AuthenticationController {
 	}
 	
 	@PostMapping("/signup")
-	public String createAccount(Model model, @Valid UserDTO userDTO) {
+	public String createAccount(Model model, @RequestParam String username, @RequestParam String password, @RequestParam String line1, @RequestParam String line2, @RequestParam String postcode) {
+		if(userService.exists(username))
+			return "redirect:/login";
 		try {
+		UserDTO userDTO = new UserDTO(username, password);
 		userService.createUser(userDTO);
+		addressService.update(username, line1, line2, postcode);
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDTO.getUsername(), "", List.of(new SimpleGrantedAuthority("ROLE_USER")));
         SecurityContextHolder.getContext().setAuthentication(token);
 		} catch (Exception e) {
@@ -50,24 +59,32 @@ public class AuthenticationController {
 		return "redirect:/";
 	}
 	
-	@GetMapping("/update-account")
-	public String updateAccount() {
-			return "update-account";
+	@GetMapping("/account")
+	public ModelAndView account(Authentication authentication) {
+		if(authentication != null) {
+			AddressDTO addressDTO = null;
+			try {
+				CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+				addressDTO = this.addressService.findOrEmpty(oAuth2User.getEmail());
+			} catch (ClassCastException e) {
+				addressDTO = this.addressService.findOrEmpty(authentication.getName());
+				} 
+			return new ModelAndView("update-account", Map.of("address", addressDTO));
+		} else
+			return new ModelAndView("update-account");
 	}
 	
 	@PostMapping("/update-account")
-	public String updatingAccount(Authentication authentication,@Valid AddressDTO addressDTO) {
-		if(authentication != null) {
-			UserDTO userDTO = userService.findUser(authentication.getName());
-			if(userDTO!=null) {
-				userDTO.setLine1(addressDTO.getLine1());
-				userDTO.setLine2(addressDTO.getLine2());
-				userDTO.setPostcode(addressDTO.getPostcode());
-				userService.updateUser(userDTO);
-			}
-			return "redirect:/update-account";
+	public String updateAccount(Authentication authentication, @RequestParam String line1, @RequestParam String line2, @RequestParam String postcode) {
+		if(authentication == null)
+			return "redirect:/login";
+		try {
+			CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+			this.addressService.update(oAuth2User.getEmail(), line1, line2, postcode);
+		} catch (ClassCastException e) {
+			this.addressService.update(authentication.getName(), line1, line2, postcode);
 		}
-		return "redirect:/login";
+		 return "redirect:/account";			
 	}
 
 }

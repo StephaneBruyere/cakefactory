@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.factory.cake.authentication.domain.dto.AddressDTO;
 import com.factory.cake.authentication.domain.service.UserService;
-import com.factory.cake.domain.dto.AddressDTO;
 import com.factory.cake.domain.dto.OrderReceivedEvent;
 import com.factory.cake.domain.service.BasketService;
 
