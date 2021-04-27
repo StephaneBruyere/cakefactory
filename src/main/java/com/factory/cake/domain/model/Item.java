@@ -1,6 +1,7 @@
 package com.factory.cake.domain.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,7 +26,7 @@ public class Item  implements Serializable {
 	private String name;
 	
 	@NotNull
-	private float price;
+	private BigDecimal price;
 	
 	private String description;
 	private String image;

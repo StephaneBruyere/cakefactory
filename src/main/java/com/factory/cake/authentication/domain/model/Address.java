@@ -20,6 +20,9 @@ public class Address {
 	@NotBlank(message = "email must be defined")
     private String username;
 	
+	@NotBlank(message = "invalid Name")
+	private String name;
+	
 	@NotBlank(message = "invalid Street")
 	private String line1;
 	
@@ -27,6 +30,9 @@ public class Address {
 	
 	@NotBlank(message = "invalid postcode")
 	private String postcode;
+	
+	@NotBlank(message = "invalid City")
+	private String City;
 
 
 }

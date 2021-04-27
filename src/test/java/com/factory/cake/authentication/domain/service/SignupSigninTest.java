@@ -47,7 +47,7 @@ public class SignupSigninTest {
 		String email = "test@example.com";
         String password = "password";
         UserDTO userDTO = new UserDTO(email,password);
-        this.authController.createAccount(null,email, password, "line 1", "line 2", "postcode");
+        this.authController.createAccount(null,email, password, "John Doe", "line 1", "line 2", "postcode", "city");
         verify(userService).createUser(userDTO);
     }
 	
@@ -55,18 +55,20 @@ public class SignupSigninTest {
     void updatesUserAddress() {
 		String email = "test@example.com";
         String password = "password";
+        String name = "John Doe";
         String addressLine1 = "line 1";
         String addressLine2 = "line 2";
         String postcode = "postcode";
-        this.authController.createAccount(null,email, password, addressLine1, addressLine2, postcode);
-        verify(addressService).update(email, addressLine1, addressLine2, postcode);
+        String city = "city";
+        this.authController.createAccount(null,email, name, password, addressLine1, addressLine2, postcode, city);
+        verify(addressService).update(email, name, addressLine1, addressLine2, postcode, city);
     }
 	
 	 @Test
 	    void redirectsToHomepage() {
 		 String email = "test@example.com";
 	        String password = "password";
-	        String response = this.authController.createAccount(null,email, password, "line 1", "line 2", "postcode");
+	        String response = this.authController.createAccount(null,email, password, "John Doe", "line 1", "line 2", "postcode", "city");
 	        assertThat(response.equals("index"));
 	    }
 
@@ -75,7 +77,7 @@ public class SignupSigninTest {
 	        String email = "user@example.com";
 	        when(userService.exists(email)).thenReturn(true);
 
-	        String signupResponse = authController.createAccount(null, email, "password", "line1", "line2", "P1 CD");
+	        String signupResponse = authController.createAccount(null, email, "password", "John Doe", "line1", "line2", "P1 CD", "city");
 	        assertThat(signupResponse).isEqualTo("redirect:/login");
 	    }
 	 

@@ -2,6 +2,7 @@ package com.factory.cake.domain.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
@@ -28,7 +29,7 @@ class SessionBasketTest {
 
     @BeforeEach
     void setUp() {
-    	itemService.saveItem(new ItemDTO("t1", EXPECTED_TITLE, 10f,"",""));
+    	itemService.saveItem(new ItemDTO("t1", EXPECTED_TITLE, new BigDecimal(10),"",""));
     }
 
     @Test

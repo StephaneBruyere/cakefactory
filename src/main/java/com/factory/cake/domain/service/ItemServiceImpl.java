@@ -1,5 +1,6 @@
 package com.factory.cake.domain.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -19,12 +20,12 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<ItemDTO> createSixItems() {
-		ItemDTO pie = new ItemDTO("app", "Apple Pie", 8.5f, "a delicious apple pie with fresh apples", "applepie");
-		ItemDTO eclair = new ItemDTO("ecc", "Eclair", 6.5f, "a French chocolate treat", "eclair");
-		ItemDTO macaron = new ItemDTO("mac", "Macarons", 9.5f, "so delicate !", "macarons");
-		ItemDTO strudel = new ItemDTO("str", "Strudel", 6.0f, " a German apple pie", "strudel");
-		ItemDTO croissant = new ItemDTO("cro", "Croissant", 1.5f, "the famous French pastry", "croissant");
-		ItemDTO profiteroles = new ItemDTO("pro", "Profiteroles", 9.0f,"Ice cream and melting chocolate : the perfect match", "profiteroles");
+		ItemDTO pie = new ItemDTO("app", "Apple Pie", BigDecimal.valueOf(8.5), "a delicious apple pie with fresh apples", "applepie");
+		ItemDTO eclair = new ItemDTO("ecc", "Eclair", BigDecimal.valueOf(6.5), "a French chocolate treat", "eclair");
+		ItemDTO macaron = new ItemDTO("mac", "Macarons", BigDecimal.valueOf(9.5), "so delicate !", "macarons");
+		ItemDTO strudel = new ItemDTO("str", "Strudel", BigDecimal.valueOf(6.0), " a German apple pie", "strudel");
+		ItemDTO croissant = new ItemDTO("cro", "Croissant", BigDecimal.valueOf(1.5), "the famous French pastry", "croissant");
+		ItemDTO profiteroles = new ItemDTO("pro", "Profiteroles", BigDecimal.valueOf(9.0),"Ice cream and melting chocolate : the perfect match", "profiteroles");
 		return List.of(pie, eclair, macaron, strudel, croissant, profiteroles);
 	}
 	

@@ -1,5 +1,6 @@
 package com.factory.cake.domain.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -46,7 +47,7 @@ public class BasketServiceImpl implements BasketService {
 	@Override
 	public Collection<BasketLineDTO> getBasketItems() {
 		final Collection<BasketLineDTO> BasketLinesDTO = new ArrayList<>();
-		basket.forEach((key,value) -> BasketLinesDTO.add(new BasketLineDTO(key,itemService.findItembyId(key).getName(),value,itemService.findItembyId(key).getPrice()*value)));	
+		basket.forEach((key,value) -> BasketLinesDTO.add(new BasketLineDTO(key,itemService.findItembyId(key).getName(),value,itemService.findItembyId(key).getPrice().multiply(BigDecimal.valueOf(value)))));	
 		return BasketLinesDTO;
 	}
 
@@ -63,6 +64,11 @@ public class BasketServiceImpl implements BasketService {
 	@Override
 	public void clear() {
 		this.basket.clear();		
+	}
+
+	@Override
+	public BigDecimal basketPrice() {
+		return getBasketItems().stream().map(BasketLineDTO::getLineTotalPrice).reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2);
 	}
 
 }

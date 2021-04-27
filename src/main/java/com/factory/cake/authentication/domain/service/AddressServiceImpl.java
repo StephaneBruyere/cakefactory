@@ -14,21 +14,21 @@ public class AddressServiceImpl implements AddressService {
 	@Autowired
 	private AddressRepository addressRepository;
 	
-	private static final AddressDTO EMPTY_ADDRESS = new AddressDTO("","","");
+	private static final AddressDTO EMPTY_ADDRESS = new AddressDTO("","","","","");
 
 	@Override
 	@Transactional(readOnly = true)
 	public AddressDTO findOrEmpty(String email) {
 		return this.addressRepository
                 .findById(email)
-                .map(entity -> new AddressDTO(entity.getLine1(), entity.getLine2(), entity.getPostcode()))
+                .map(entity -> new AddressDTO(entity.getName(), entity.getLine1(), entity.getLine2(), entity.getPostcode(), entity.getCity()))
                 .orElse(EMPTY_ADDRESS);
 	}
 
 	@Override
 	@Transactional
-	public void update(String email, String addressLine1, String addressLine2, String postcode) {
-		Address address = new Address(email, addressLine1, addressLine2, postcode);
+	public void update(String email, String name, String addressLine1, String addressLine2, String postcode, String city) {
+		Address address = new Address(email, name, addressLine1, addressLine2, postcode, city);
 		this.addressRepository.save(address);
 	}
 	

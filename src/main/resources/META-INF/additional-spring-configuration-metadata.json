@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "paypal.mode",
+    "type": "java.lang.String",
+    "description": "Mode setting for paypal payment'"
+  },
+  {
+    "name": "paypal.client.id",
+    "type": "java.lang.String",
+    "description": "Paypal payment client id"
+  },
+  {
+    "name": "paypal.client.secret",
+    "type": "java.lang.String",
+    "description": "Paypal payment client secret'"
+  }
+]}

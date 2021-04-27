@@ -35,9 +35,9 @@ public class BasketController {
 	public ModelAndView showBasket(Authentication authentication) {
 		if (authentication != null) {
 			AddressDTO addressDTO = this.addressService.findOrEmpty(authentication.getName());
-			return new ModelAndView("basket", Map.of("basket", basketService.getBasketItems(), "address", addressDTO));
+			return new ModelAndView("basket", Map.of("basket", basketService.getBasketItems(), "totalPrice", basketService.basketPrice(), "address", addressDTO));
 		} else
-			return new ModelAndView("basket", Map.of("basket", basketService.getBasketItems()));
+			return new ModelAndView("basket", Map.of("basket", basketService.getBasketItems(), "totalPrice", basketService.basketPrice()));
 	}
 
 	@PostMapping("/delete")

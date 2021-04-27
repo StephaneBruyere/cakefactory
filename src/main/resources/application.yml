@@ -28,6 +28,7 @@ spring:
 
 # ----------------------------------------
 # FLYWAY (FlywayProperties)
+# ----------------------------------------
   flyway:
     table: flyway_schema_history
     baseline-on-migrate: true
@@ -55,3 +56,12 @@ spring:
         provider:
           google:
             user-name-attribute: email 
+        
+# ----------------------------------------
+# PAYPAL
+# ----------------------------------------            
+paypal:
+  mode: sandbox
+  client:
+    id: ATXrk68qBIuJf3cRxDo3KXaGcOIAZQna8FCODh5DdRwLYY78fBTFtHE_HK96-AZr0CTj_izjRQAJjCjb
+    secret: EGrh3WAPn0Xvf10zTLT3lR76wUIBw115g5uddBzizpxB-CW6_AXWS72ixjFXMMdUYvHUSw0qb8Yxc8Yq             

@@ -6,7 +6,7 @@ public interface AddressService {
 
 	public AddressDTO findOrEmpty(String email);
 
-	public void update(String email, String addressLine1, String addressLine2, String postcode);
+	public void update(String email, String name, String addressLine1, String addressLine2, String postcode, String city);
 
 	public void deleteAddress(String username);
 

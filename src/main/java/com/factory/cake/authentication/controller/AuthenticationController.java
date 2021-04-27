@@ -49,13 +49,14 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/signup")
-	public String createAccount(Model model, @RequestParam String username, @RequestParam String password,@RequestParam String line1, @RequestParam String line2, @RequestParam String postcode) {
+	public String createAccount(Model model, @RequestParam String username, @RequestParam String password, @RequestParam String name, 
+			@RequestParam String line1, @RequestParam String line2, @RequestParam String postcode, @RequestParam String city) {
 		if (userService.exists(username))
 			return "redirect:/login";
 		try {
 			UserDTO userDTO = new UserDTO(username, password);
 			userService.createUser(userDTO);
-			addressService.update(username, line1, line2, postcode);
+			addressService.update(username, name, line1, line2, postcode, city);
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDTO.getUsername(),"", List.of(new SimpleGrantedAuthority("ROLE_USER")));
 			SecurityContextHolder.getContext().setAuthentication(token);
 		} catch (Exception e) {
@@ -75,10 +76,11 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/update-account")
-	public String updateAccount(Authentication authentication, @RequestParam String line1, @RequestParam String line2, @RequestParam String postcode) {
+	public String updateAccount(Authentication authentication, @RequestParam String name, 
+			@RequestParam String line1, @RequestParam String line2, @RequestParam String postcode, @RequestParam String city) {
 		if (authentication == null)
 			return "redirect:/login";
-		this.addressService.update(authentication.getName(), line1, line2, postcode);
+		this.addressService.update(authentication.getName(), name, line1, line2, postcode, city);
 		return "redirect:/account";
 	}
 

@@ -7,6 +7,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
@@ -61,8 +62,8 @@ public class BasketControllerTest {
 
     @Test
     void showsBasket() {
-    	BasketLineDTO basketItem1 = new BasketLineDTO("t01", "Test 1", 2, 5.2f );
-    	BasketLineDTO basketItem2 = new BasketLineDTO("t02", "Test 2", 3, 7.5f);
+    	BasketLineDTO basketItem1 = new BasketLineDTO("t01", "Test 1", 2, new BigDecimal(5.2) );
+    	BasketLineDTO basketItem2 = new BasketLineDTO("t02", "Test 2", 3, new BigDecimal(7.5));
         when(basket.getBasketItems()).thenReturn(Arrays.asList(basketItem1, basketItem2));
 
         BrowserClient client = new BrowserClient(mockMvc);
@@ -75,11 +76,13 @@ public class BasketControllerTest {
     @Test
     @WithMockUser(username = "test@example.com")
     void prePopulatesBasketFields() {
+    	 String expectedName = "John Doe";
         String expectedAddressLine1 = "address line 1";
         String expectedAddressLine2 = "address line 2";
         String expectedPostcode = "postcode";
+        String expectedCity = "city";
 
-        AddressDTO account = new AddressDTO(expectedAddressLine1, expectedAddressLine2, expectedPostcode);
+        AddressDTO account = new AddressDTO(expectedName, expectedAddressLine1, expectedAddressLine2, expectedPostcode, expectedCity);
         when(addressService.findOrEmpty("test@example.com")).thenReturn(account);
 
         BrowserClient browserClient = new BrowserClient(mockMvc);

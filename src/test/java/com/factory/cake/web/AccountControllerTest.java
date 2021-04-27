@@ -44,7 +44,7 @@ class AccountControllerTest {
     @Test
     @WithMockUser(TEST_EMAIL)
     void populatesAddressForExistingAccount() {
-        when(addressService.findOrEmpty(TEST_EMAIL)).thenReturn(new AddressDTO("line 1", "line 2", "postcode"));
+        when(addressService.findOrEmpty(TEST_EMAIL)).thenReturn(new AddressDTO("John Doe", "line 1", "line 2", "postcode", "city"));
 
         browserClient.goToAccountPage();
         assertThat(browserClient.getAddressLine1()).isEqualTo("line 1");
@@ -55,12 +55,12 @@ class AccountControllerTest {
     @Test
     @WithMockUser(TEST_EMAIL)
     void updatesAddress() {
-        when(addressService.findOrEmpty(TEST_EMAIL)).thenReturn(new AddressDTO("line 1", "line 2", "postcode"));
+        when(addressService.findOrEmpty(TEST_EMAIL)).thenReturn(new AddressDTO("John Doe", "line 1", "line 2", "postcode", "city"));
 
         browserClient.goToAccountPage();
         browserClient.fillInAddress("new line 1", "new line 2", "postcode");
         browserClient.clickPrimaryButton();
 
-        verify(addressService).update(TEST_EMAIL, "new line 1", "new line 2", "postcode");
+        verify(addressService).update(TEST_EMAIL, "John Doe", "new line 1", "new line 2", "postcode", "city");
     }
 }
