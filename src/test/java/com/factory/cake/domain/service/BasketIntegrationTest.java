@@ -72,9 +72,9 @@ public class BasketIntegrationTest {
         client.goToHomepage();
         client.clickAddToBasket("Croissant");
         client.goToBasket();
-        client.fillInAddress("High Rd", "East Finchley", "N2 0NW");
+        client.fillInAddress("Stef", "High Rd", "East Finchley", "N2 0NW", "NYC");
         client.completeOrder();
 
-        assertThat(client.pageText()).contains("Your order is now complete");
+        assertThat(client.pageText()).contains("Connectez-vous à votre compte PayPal");
     }
 }

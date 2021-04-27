@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class OrderReceivedEvent {
 
 	private Collection<BasketLineDTO> basket;
+	
 	private AddressDTO deliveryAddress = new AddressDTO();
 	
 	

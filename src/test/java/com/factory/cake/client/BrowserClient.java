@@ -78,10 +78,12 @@ public class BrowserClient {
         this.currentPage = deleteButton.click();
     }
 
-    public void fillInAddress(String line1, String line2, String postcode) {
+    public void fillInAddress(String name, String line1, String line2, String postcode, String city) {
+    	setValue("#name", name);
         setValue("#line1", line1);
         setValue("#line2", line2);
         setValue("#postcode", postcode);
+        setValue("#city", city);
     }
 
     @SneakyThrows
@@ -114,10 +116,10 @@ public class BrowserClient {
         this.currentPage = this.webClient.getPage("http://localhost/account");
     }
 
-    public void fillInDetails(String email, String password, String addressLine1, String addressLine2, String postcode) {
+    public void fillInDetails(String email, String password, String name, String addressLine1, String addressLine2, String postcode, String city) {
         setValue("#username", email);
         setValue("#password", password);
-        fillInAddress(addressLine1, addressLine2, postcode);
+        fillInAddress(name, addressLine1, addressLine2, postcode, city);
     }
 
     @SneakyThrows

@@ -19,7 +19,7 @@ public class AddressDTO {
 	@NotBlank(message = "invalid postcode")
 	private String postcode;
 	@NotBlank(message = "invalid City")
-	private String City;
+	private String city;
 
 
 }

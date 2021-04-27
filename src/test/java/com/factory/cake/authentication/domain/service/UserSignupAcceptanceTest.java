@@ -36,7 +36,7 @@ public class UserSignupAcceptanceTest {
         String password = "passw0rd!";
 
         client.goToSignupPage();
-        client.fillInDetails(email, password, "address line 1", "address line 2", "P1 ST");
+        client.fillInDetails(email, password, "name", "address line 1", "address line 2", "P1 ST", "city");
         client.completeSignup();
         assertThat(client.getCurrentUserEmail()).isEqualTo(email);
     }
@@ -47,7 +47,7 @@ public class UserSignupAcceptanceTest {
         String password = "passw0rd!";
 
         client.goToSignupPage();
-        client.fillInDetails(email, password, "address line 1", "address line 2", "P1 ST");
+        client.fillInDetails(email, password, "name", "address line 1", "address line 2", "P1 ST", "city");
         client.completeSignup();
 
         BrowserClient newClient = new BrowserClient(mockMvc);
@@ -64,11 +64,11 @@ public class UserSignupAcceptanceTest {
         String password = "passw0rd!";
 
         client.goToSignupPage();
-        client.fillInDetails(email, password, "address line 1", "address line 2", "P1 ST");
+        client.fillInDetails(email, password, "name", "address line 1", "address line 2", "P1 ST", "city");
         client.completeSignup();
 
         client.goToAccountPage();
-        client.fillInAddress("new address line 1", "new address line 2", "P2 ST");
+        client.fillInAddress("new name", "new address line 1", "new address line 2", "P2 ST", "new city");
         client.clickPrimaryButton();
 
         BrowserClient newClient = new BrowserClient(mockMvc);

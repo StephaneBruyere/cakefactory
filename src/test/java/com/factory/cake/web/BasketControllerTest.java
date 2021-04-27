@@ -62,15 +62,16 @@ public class BasketControllerTest {
 
     @Test
     void showsBasket() {
-    	BasketLineDTO basketItem1 = new BasketLineDTO("t01", "Test 1", 2, new BigDecimal(5.2) );
-    	BasketLineDTO basketItem2 = new BasketLineDTO("t02", "Test 2", 3, new BigDecimal(7.5));
+    	BasketLineDTO basketItem1 = BasketLineDTO.builder().id("t01").name("Test1").quantity(2).lineTotalPrice(BigDecimal.valueOf(5.2)).build();
+    	BasketLineDTO basketItem2 = BasketLineDTO.builder().id("t02").name("Test2").quantity(3).lineTotalPrice(BigDecimal.valueOf(7.5)).build();
         when(basket.getBasketItems()).thenReturn(Arrays.asList(basketItem1, basketItem2));
+        when(basket.basketPrice()).thenReturn(BigDecimal.valueOf(12.7));
 
         BrowserClient client = new BrowserClient(mockMvc);
         client.goToBasket();
 
-        assertThat(client.getBasketItemQtyLabel("Test 1")).isEqualTo("2");
-        assertThat(client.getBasketItemQtyLabel("Test 2")).isEqualTo("3");
+        assertThat(client.getBasketItemQtyLabel("Test1")).isEqualTo("2");
+        assertThat(client.getBasketItemQtyLabel("Test2")).isEqualTo("3");
     }
     
     @Test
@@ -84,6 +85,7 @@ public class BasketControllerTest {
 
         AddressDTO account = new AddressDTO(expectedName, expectedAddressLine1, expectedAddressLine2, expectedPostcode, expectedCity);
         when(addressService.findOrEmpty("test@example.com")).thenReturn(account);
+        when(basket.basketPrice()).thenReturn(BigDecimal.valueOf(12.7));
 
         BrowserClient browserClient = new BrowserClient(mockMvc);
         browserClient.goToBasket();

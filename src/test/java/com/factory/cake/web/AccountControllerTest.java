@@ -58,9 +58,9 @@ class AccountControllerTest {
         when(addressService.findOrEmpty(TEST_EMAIL)).thenReturn(new AddressDTO("John Doe", "line 1", "line 2", "postcode", "city"));
 
         browserClient.goToAccountPage();
-        browserClient.fillInAddress("new line 1", "new line 2", "postcode");
+        browserClient.fillInAddress("Johnny B. Good", "new line 1", "new line 2", "postcode", "new Town");
         browserClient.clickPrimaryButton();
 
-        verify(addressService).update(TEST_EMAIL, "John Doe", "new line 1", "new line 2", "postcode", "city");
+        verify(addressService).update(TEST_EMAIL, "Johnny B. Good", "new line 1", "new line 2", "postcode", "new Town");
     }
 }
