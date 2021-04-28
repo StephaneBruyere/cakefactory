@@ -7,9 +7,9 @@ spring:
 # DATABASE
 # ===============================
   datasource:
-    url: jdbc:postgresql://localhost:5432/cakefactory
-    username: postgres
-    password: cnam
+    url: ${postgresql.url}
+    username: ${postgresql.username}
+    password: ${postgresql.pwd}
 # Keep the connection alive if idle for a long time (needed in production)
     tomcat:
       test-while-idle: true
@@ -41,15 +41,9 @@ spring:
     oauth2:
       client:
         registration:
-#          github:
-#            client-id: 295215c4e4d5fcc7c5ee
-#            client-secret: de7a1dda7e7fa6a731c836677463383386ad4b0a
-#            scope:
-#              - user:email
-#              - read:user
           google:
-            client-id: 325730648419-d15tqvef67l4kcsfopghhl9qq1l4dp93.apps.googleusercontent.com
-            client-secret: NkLJceHg5ABxyF-BVgtZwkjY
+            client-id: ${google.client-id}
+            client-secret: ${google.client-secret}
             scope:
               - email
               - profile
@@ -63,5 +57,5 @@ spring:
 paypal:
   mode: sandbox
   client:
-    id: ATXrk68qBIuJf3cRxDo3KXaGcOIAZQna8FCODh5DdRwLYY78fBTFtHE_HK96-AZr0CTj_izjRQAJjCjb
-    secret: EGrh3WAPn0Xvf10zTLT3lR76wUIBw115g5uddBzizpxB-CW6_AXWS72ixjFXMMdUYvHUSw0qb8Yxc8Yq             
+    id: ${paypal.sandbox.id}
+    secret: ${paypal.sandbox.secret}             
